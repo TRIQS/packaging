@@ -37,7 +37,7 @@ ENV CC=gcc CXX=g++ \
     SRC=/src \
     BUILD=/build \
     INSTALL=/usr \
-    CMAKE_PREFIX_PATH=/usr/share/cmake \
+    CMAKE_PREFIX_PATH=/usr/lib/cmake/triqs \
     REPO=/build/repo
 
 COPY . $SRC/
