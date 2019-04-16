@@ -16,4 +16,4 @@ A separate [docker build](https://hub.docker.com/r/flatironinstitute/compiler-ex
 
 ## Dependencies
 
-The submodules in this repository point to the latest revision of each module, and are updated automatically at the end of each successful Jenkins run (except for cpp2py which is updated manually).
+The submodules in this repository point to the latest revision of each module, and are updated automatically at the end of each successful Jenkins run.
