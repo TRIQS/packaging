@@ -7,7 +7,7 @@
 	url = https://github.com/TRIQS/dft_tools
 	branch = unstable
 [submodule "cthyb"]
-	path = cthyb
+	path = triqs_cthyb
 	url = https://github.com/TRIQS/cthyb
 	branch = unstable
 [submodule "omegamaxent_interface"]
