@@ -6,8 +6,8 @@ RUN apt-get update && \
     add-apt-repository "deb https://users.flatironinstitute.org/~ccq/triqs/unstable/bionic/ /" -y && \
     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       triqs \
-      dft_tools \
-      cthyb \
+      triqs_dft_tools \
+      triqs_cthyb \
       \
       cmake \
       g++ \
