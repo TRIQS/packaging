@@ -2,8 +2,8 @@ FROM ubuntu:bionic
 
 RUN apt-get update && \
     apt-get install -y software-properties-common apt-transport-https curl && \
-    curl -L https://users.flatironinstitute.org/~ccq/triqs/unstable/bionic/public.gpg | apt-key add - && \
-    add-apt-repository "deb https://users.flatironinstitute.org/~ccq/triqs/unstable/bionic/ /" -y && \
+    curl -L https://users.flatironinstitute.org/~ccq/triqs/bionic/public.gpg | apt-key add - && \
+    add-apt-repository "deb https://users.flatironinstitute.org/~ccq/triqs/bionic/ /" -y && \
     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       triqs \
       triqs_dft_tools \
