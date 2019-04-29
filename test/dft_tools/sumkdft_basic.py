@@ -1,1 +1,1 @@
-../../dft_tools/test/sumkdft_basic.py
+../../triqs_dft_tools/test/sumkdft_basic.py

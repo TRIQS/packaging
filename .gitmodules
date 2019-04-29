@@ -3,7 +3,7 @@
 	url = https://github.com/TRIQS/triqs
 	branch = unstable
 [submodule "dft_tools"]
-	path = dft_tools
+	path = triqs_dft_tools
 	url = https://github.com/TRIQS/dft_tools
 	branch = unstable
 [submodule "cthyb"]

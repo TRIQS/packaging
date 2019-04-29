@@ -1,0 +1,1 @@
+../../triqs_dft_tools/test/analyse_block_structure_from_gf2.py

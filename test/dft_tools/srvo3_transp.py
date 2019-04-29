@@ -1,1 +1,1 @@
-../../dft_tools/test/srvo3_transp.py
+../../triqs_dft_tools/test/srvo3_transp.py

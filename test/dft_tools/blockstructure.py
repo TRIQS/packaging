@@ -1,1 +1,1 @@
-../../dft_tools/test/blockstructure.py
+../../triqs_dft_tools/test/blockstructure.py
