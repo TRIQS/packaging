@@ -22,7 +22,7 @@ for (int i = 0; i < packagePlatforms.size(); i++) {
 	  cd test/triqs/run
 	  cmake ..
 	  make -j2
-	  make test
+	  make test CTEST_OUTPUT_ON_FAILURE=1
 	"""
 	sh "tar czf ${platform}.tgz -C \$REPO ."
       }
