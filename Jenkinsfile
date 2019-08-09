@@ -18,9 +18,9 @@ for (int i = 0; i < packagePlatforms.size(); i++) {
       def img = docker.build("flatironinstitute/triqs-package-$platform:${env.BRANCH_NAME}", "-f Dockerfile.package-$platform .")
       img.inside('-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group') {
 	sh """#!/bin/bash -ex
-	  top=$PWD
+	  top=\$PWD
 	  for t in triqs triqs_cthyb triqs_dft_tools ; do
-	    mkdir $top/test/$t/run
+	    mkdir \$top/test/\$t/run
 	    cd test/triqs/run
 	    cmake ..
 	    make -j2
