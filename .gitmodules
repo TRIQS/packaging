@@ -13,3 +13,6 @@
 [submodule "omegamaxent_interface"]
 	path = omegamaxent_interface
 	url = https://github.com/TRIQS/omegamaxent_interface
+[submodule "tprf"]
+	path = triqs_tprf
+	url = https://github.com/TRIQS/tprf
