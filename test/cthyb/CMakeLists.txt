@@ -8,16 +8,10 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 
-# Global options and definitions
-add_compile_options(
-	-std=c++17
-	$<$<CONFIG:Debug>:-Og>
-	)
-
 # Load Dependencies
-find_package(Cpp2Py)
 find_package(TRIQS)
-link_libraries(triqs)
+find_package(triqs_cthyb)
+link_libraries(triqs_cthyb_c)
 
 enable_testing()
 
