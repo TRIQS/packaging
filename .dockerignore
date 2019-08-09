@@ -1,5 +1,8 @@
 .gitmodules
 README.md
 Dockerfile*
+Jenkinsfile
+test
 */Jenkinsfile
-compiler-explorer
+*/Dockerfile*
+*/.travis.yml
