@@ -21,7 +21,7 @@ for (int i = 0; i < packagePlatforms.size(); i++) {
 	  top=\$PWD
 	  for t in triqs triqs_cthyb triqs_dft_tools ; do
 	    mkdir \$top/test/\$t/run
-	    cd \$top/test/$\t/run
+	    cd \$top/test/\$t/run
 	    cmake ..
 	    make -j2
 	    make test CTEST_OUTPUT_ON_FAILURE=1
