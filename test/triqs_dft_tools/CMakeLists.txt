@@ -1,6 +1,6 @@
 # Start configuration
 cmake_minimum_required(VERSION 2.8.12)
-project(cthyb_tests CXX)
+project(triqs_dft_tools_tests CXX)
 
 # Default to Release build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -10,15 +10,10 @@ message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 
 # Load Dependencies
 find_package(TRIQS)
-find_package(triqs_cthyb)
-link_libraries(triqs_cthyb_c)
+#find_package(triqs_dft_tools)
+#link_libraries(atm_c)
 
 enable_testing()
 
-# The C++ Cthyb Tests
-add_subdirectory(c++)
-
-# The Python Cthyb Tests
-if(${TRIQS_WITH_PYTHON_SUPPORT})
-  add_subdirectory(python)
-endif()
+# The dft_tools tests
+add_subdirectory(test)

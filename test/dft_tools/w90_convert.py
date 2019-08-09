@@ -1,1 +1,0 @@
-../../triqs_dft_tools/test/w90_convert.py

@@ -1,1 +1,0 @@
-../../triqs_dft_tools/test/wien2k_convert.py
