@@ -16,3 +16,6 @@
 [submodule "tprf"]
 	path = triqs_tprf
 	url = https://github.com/TRIQS/tprf
+[submodule "maxent"]
+	path = triqs_maxent
+	url = https://github.com/TRIQS/maxent
