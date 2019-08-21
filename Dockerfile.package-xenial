@@ -51,7 +51,7 @@ RUN set -ex ; \
     mkdir $BUILD/$pkg ; \
     cd $BUILD/$pkg ; \
     cmake $SRC/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL ; \
-    make -j2 package ; \
+    make -j2 install package ; \
     dpkg -i $pkg-*.deb ; \
     mv $pkg-*.deb $REPO ; \
   done
