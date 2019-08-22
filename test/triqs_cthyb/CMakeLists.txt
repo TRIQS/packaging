@@ -11,7 +11,14 @@ message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 # Load Dependencies
 find_package(TRIQS)
 find_package(triqs_cthyb)
-link_libraries(triqs_cthyb_c)
+
+# Lift the relevant triqs_cthyb targets out of the triqs_cthyb namespace
+add_library(triqs_cthyb_c INTERFACE)
+target_link_libraries(triqs_cthyb_c INTERFACE triqs_cthyb::triqs_cthyb_c)
+add_library(project_warnings INTERFACE)
+target_link_libraries(project_warnings INTERFACE triqs_cthyb::project_warnings)
+add_library(nfft INTERFACE)
+target_link_libraries(nfft INTERFACE triqs_cthyb::nfft)
 
 enable_testing()
 
