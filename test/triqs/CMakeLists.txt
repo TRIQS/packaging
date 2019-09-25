@@ -22,12 +22,11 @@ find_package(TRIQS)
 
 # Load Triqs specific test macros in the proper way
 macro(add_all_subdirectories_with_cmakelist)
-  SET(print_decal_sub_dir "${print_decal_sub_dir}  ")
-  FILE(GLOB ALLSUBS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} */CMakeLists.txt)
+  file(GLOB ALLSUBS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} */CMakeLists.txt)
   foreach(f ${ALLSUBS})
      get_filename_component(d ${f} PATH)
      add_subdirectory(${d})
-  endforeach(f ${ALLSUBS}) 
+  endforeach()
 endmacro()
 
 set(MPIEXEC_EXECUTABLE		${TRIQS_MPIEXEC_EXECUTABLE} 	CACHE STRING "")
@@ -36,6 +35,9 @@ set(MPIEXEC_PREFLAGS		${TRIQS_MPIEXEC_PREFLAGS} 	CACHE STRING "")
 set(MPIEXEC_POSTFLAGS		${TRIQS_MPIEXEC_POSTFLAGS} 	CACHE STRING "")
 
 link_libraries(triqs)
+
+# Build googletest
+add_subdirectory(gtest EXCLUDE_FROM_ALL)
 
 enable_testing()
 
