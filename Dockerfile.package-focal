@@ -6,6 +6,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gfortran \
       git \
       hdf5-tools \
+      googletest \
       libblas-dev \
       libboost-all-dev \
       libclang-dev \
