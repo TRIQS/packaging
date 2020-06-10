@@ -5,7 +5,7 @@ properties([
 
 def platforms = [:]
 
-def packagePlatforms = ["xenial", "bionic"]
+def packagePlatforms = ["bionic","focal"]
 for (int i = 0; i < packagePlatforms.size(); i++) {
   def platform = packagePlatforms[i]
   platforms["package-$platform"] = { -> node('docker') {

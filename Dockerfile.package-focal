@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       cmake \
@@ -10,7 +10,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       libboost-all-dev \
       libclang-dev \
       libfftw3-dev \
-      libgfortran3 \
+      libgfortran4 \
       libgmp-dev \
       libgsl-dev \
       libhdf5-dev \
