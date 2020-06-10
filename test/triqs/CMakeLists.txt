@@ -1,5 +1,10 @@
 # Start configuration
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.3.2 FATAL_ERROR)
+cmake_policy(VERSION 3.3.2)
+if(POLICY CMP0074)
+  cmake_policy(SET CMP0074 NEW)
+endif()
+
 project(triqs_tests CXX)
 
 # Default to Release build type
@@ -9,12 +14,6 @@ endif()
 message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
-
-# Global options and definitions
-add_compile_options(
-	-std=c++17
-	$<$<CONFIG:Debug>:-Og>
-	)
 
 # Load Dependencies
 find_package(Cpp2Py)
@@ -37,14 +36,16 @@ set(MPIEXEC_POSTFLAGS		${TRIQS_MPIEXEC_POSTFLAGS} 	CACHE STRING "")
 link_libraries(triqs)
 
 # Build googletest
-add_subdirectory(gtest EXCLUDE_FROM_ALL)
+find_package(GTest REQUIRED)
+add_library(gtest INTERFACE)
+target_link_libraries(gtest INTERFACE GTest::GTest)
 
 enable_testing()
 
 # The C++ Triqs Tests
-add_subdirectory(triqs)
+add_subdirectory(c++)
 
 # The Python Triqs Tests
 if(${TRIQS_WITH_PYTHON_SUPPORT})
-  add_subdirectory(pytriqs)
+  add_subdirectory(python)
 endif()
