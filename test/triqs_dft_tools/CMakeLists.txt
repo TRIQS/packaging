@@ -16,11 +16,9 @@ message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 # Load Dependencies
 find_package(TRIQS REQUIRED)
 find_package(${PROJECT_NAME} REQUIRED)
-find_package(GTest REQUIRED)
 
-# Provide the proper alias for the GTest::Main
-add_library(gtest_main INTERFACE)
-target_link_libraries(gtest_main INTERFACE GTest::Main)
+# Build googletest
+add_subdirectory(/usr/src/gtest gtest EXCLUDE_FROM_ALL)
 
 # Lift the relevant triqs_cthyb targets out of the triqs_cthyb namespace
 add_library(${PROJECT_NAME}_warnings INTERFACE)

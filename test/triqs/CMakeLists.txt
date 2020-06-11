@@ -36,9 +36,7 @@ set(MPIEXEC_POSTFLAGS		${TRIQS_MPIEXEC_POSTFLAGS} 	CACHE STRING "")
 link_libraries(triqs)
 
 # Build googletest
-find_package(GTest REQUIRED)
-add_library(gtest INTERFACE)
-target_link_libraries(gtest INTERFACE GTest::GTest)
+add_subdirectory(/usr/src/gtest gtest EXCLUDE_FROM_ALL)
 
 enable_testing()
 
