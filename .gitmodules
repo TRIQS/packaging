@@ -1,21 +1,24 @@
 [submodule "triqs"]
 	path = triqs
 	url = https://github.com/TRIQS/triqs
-	branch = unstable
+	branch = 3.1.x
 [submodule "dft_tools"]
 	path = triqs_dft_tools
 	url = https://github.com/TRIQS/dft_tools
-	branch = unstable
+	branch = 3.1.x
 [submodule "cthyb"]
 	path = triqs_cthyb
 	url = https://github.com/TRIQS/cthyb
-	branch = unstable
+	branch = 3.1.x
 [submodule "omegamaxent_interface"]
 	path = omegamaxent_interface
 	url = https://github.com/TRIQS/omegamaxent_interface
+	branch = 3.1.x
 [submodule "tprf"]
 	path = triqs_tprf
 	url = https://github.com/TRIQS/tprf
+	branch = 3.1.x
 [submodule "maxent"]
 	path = triqs_maxent
 	url = https://github.com/TRIQS/maxent
+	branch = 1.1.x
