@@ -1,19 +1,20 @@
-FROM ubuntu:xenial
+FROM ubuntu:jammy
 
-RUN apt-get update && apt-get install -y \
-      apt-utils \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       cmake \
       g++ \
       gfortran \
       git \
       hdf5-tools \
+      libgtest-dev \
       libblas-dev \
-      libboost-all-dev \
+      libboost-dev \
+      libclang-dev \
       libfftw3-dev \
-      libgfortran3 \
+      libgfortran5 \
       libgmp-dev \
       libgsl-dev \
-      libhdf5-serial-dev \
+      libhdf5-dev \
       liblapack-dev \
       libopenmpi-dev \
       python3-dev \
@@ -22,17 +23,15 @@ RUN apt-get update && apt-get install -y \
       python3-mpi4py \
       python3-numpy \
       python3-scipy \
-      software-properties-common \
+      \
+      apt-utils \
+      debhelper \
       dpkg-dev \
       dpkg-sig \
-      debhelper \
       \
-      libnfft3-dev \
-      && \
-   add-apt-repository ppa:ubuntu-toolchain-r/test && \
-   apt-get update && apt-get install -y g++-7
+      libnfft3-dev
 
-ENV CC=gcc-7 CXX=g++-7 \
+ENV CC=gcc CXX=g++ \
     SRC=/src \
     BUILD=/build \
     INSTALL=/usr \
@@ -46,7 +45,7 @@ RUN set -ex ; \
     mkdir $BUILD/$pkg ; \
     cd $BUILD/$pkg ; \
     cmake $SRC/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL -DBuild_Deps=IfNotFound ; \
-    make -j2 install package ; \
+    make -j2 package ; \
     dpkg -i $pkg-*.deb ; \
     mv $pkg-*.deb $REPO ; \
   done
