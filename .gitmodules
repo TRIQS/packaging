@@ -13,9 +13,20 @@
 [submodule "omegamaxent_interface"]
 	path = omegamaxent_interface
 	url = https://github.com/TRIQS/omegamaxent_interface
+	branch = unstable
 [submodule "tprf"]
 	path = triqs_tprf
 	url = https://github.com/TRIQS/tprf
+	branch = unstable
 [submodule "maxent"]
 	path = triqs_maxent
 	url = https://github.com/TRIQS/maxent
+	branch = unstable
+[submodule "triqs_hubbardI"]
+	path = triqs_hubbardI
+	url = https://github.com/triqs/hubbardI
+	branch = unstable
+[submodule "triqs_hartree_fock"]
+	path = triqs_hartree_fock
+	url = https://github.com/triqs/hartree_fock
+	branch = unstable
