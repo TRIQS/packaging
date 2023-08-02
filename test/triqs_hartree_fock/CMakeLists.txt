@@ -13,7 +13,7 @@ find_package(TRIQS)
 
 enable_testing()
 
-# The Python Maxent Tests
+# The Python Hartree-Fock Tests
 if(${TRIQS_WITH_PYTHON_SUPPORT})
   add_subdirectory(python)
 endif()

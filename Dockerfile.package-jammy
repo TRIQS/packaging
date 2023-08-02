@@ -41,7 +41,7 @@ ENV CC=gcc-12 CXX=g++-12 \
 COPY . $SRC/
 RUN set -ex ; \
   mkdir -p $REPO ; \
-  for pkg in triqs triqs_dft_tools triqs_cthyb omegamaxent_interface triqs_tprf triqs_maxent triqs_hubbardI triqs_hartree_fock ; do \
+  for pkg in triqs triqs_dft_tools triqs_cthyb omegamaxent_interface triqs_tprf triqs_maxent triqs_hubbardI triqs_hartree_fock triqs_solid_dmft ; do \
     mkdir $BUILD/$pkg ; \
     cd $BUILD/$pkg ; \
     cmake $SRC/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL ; \

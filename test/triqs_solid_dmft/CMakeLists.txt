@@ -1,6 +1,6 @@
 # Start configuration
 cmake_minimum_required(VERSION 2.8.12)
-project(triqs_hubbardI_tests CXX)
+project(triqs_solid_dmft_tests CXX)
 
 # Default to Release build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -13,7 +13,7 @@ find_package(TRIQS)
 
 enable_testing()
 
-# The Python HubbardI Tests
+# The Python SolidDMFT Tests
 if(${TRIQS_WITH_PYTHON_SUPPORT})
   add_subdirectory(python)
 endif()

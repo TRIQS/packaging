@@ -22,11 +22,15 @@
 	path = triqs_maxent
 	url = https://github.com/TRIQS/maxent
 	branch = unstable
-[submodule "triqs_hubbardI"]
+[submodule "hubbardI"]
 	path = triqs_hubbardI
 	url = https://github.com/triqs/hubbardI
 	branch = unstable
-[submodule "triqs_hartree_fock"]
+[submodule "hartree_fock"]
 	path = triqs_hartree_fock
 	url = https://github.com/triqs/hartree_fock
+	branch = unstable
+[submodule "solid_dmft"]
+	path = triqs_solid_dmft
+	url = https://github.com/triqs/solid_dmft
 	branch = unstable
