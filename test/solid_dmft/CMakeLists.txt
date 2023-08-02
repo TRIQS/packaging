@@ -1,6 +1,6 @@
 # Start configuration
 cmake_minimum_required(VERSION 2.8.12)
-project(triqs_solid_dmft_tests CXX)
+project(solid_dmft_tests CXX)
 
 # Default to Release build type
 if(NOT CMAKE_BUILD_TYPE)
