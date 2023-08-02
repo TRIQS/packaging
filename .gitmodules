@@ -31,6 +31,6 @@
 	url = https://github.com/triqs/hartree_fock
 	branch = unstable
 [submodule "solid_dmft"]
-	path = triqs_solid_dmft
+	path = solid_dmft
 	url = https://github.com/triqs/solid_dmft
 	branch = unstable
