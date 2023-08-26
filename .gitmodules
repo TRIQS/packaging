@@ -1,36 +1,36 @@
 [submodule "triqs"]
 	path = triqs
 	url = https://github.com/TRIQS/triqs
-	branch = unstable
+	branch = 3.2.x
 [submodule "dft_tools"]
 	path = triqs_dft_tools
 	url = https://github.com/TRIQS/dft_tools
-	branch = unstable
+	branch = 3.2.x
 [submodule "cthyb"]
 	path = triqs_cthyb
 	url = https://github.com/TRIQS/cthyb
-	branch = unstable
+	branch = 3.2.x
 [submodule "omegamaxent_interface"]
 	path = omegamaxent_interface
 	url = https://github.com/TRIQS/omegamaxent_interface
-	branch = unstable
+	branch = 3.2.x
 [submodule "tprf"]
 	path = triqs_tprf
 	url = https://github.com/TRIQS/tprf
-	branch = unstable
+	branch = 3.2.x
 [submodule "maxent"]
 	path = triqs_maxent
 	url = https://github.com/TRIQS/maxent
-	branch = unstable
+	branch = 1.2.x
 [submodule "hubbardI"]
 	path = triqs_hubbardI
 	url = https://github.com/triqs/hubbardI
-	branch = unstable
+	branch = 3.2.x
 [submodule "hartree_fock"]
 	path = triqs_hartree_fock
 	url = https://github.com/triqs/hartree_fock
-	branch = unstable
+	branch = 3.2.x
 [submodule "solid_dmft"]
 	path = solid_dmft
 	url = https://github.com/triqs/solid_dmft
-	branch = unstable
+	branch = 3.2.x
