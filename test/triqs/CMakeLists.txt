@@ -40,6 +40,9 @@ add_subdirectory(/usr/src/gtest gtest EXCLUDE_FROM_ALL)
 
 enable_testing()
 
+# Create empty Interface target for compiler warnings
+add_library(triqs_warnings INTERFACE)
+
 # The C++ Triqs Tests
 add_subdirectory(c++)
 
