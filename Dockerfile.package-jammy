@@ -10,12 +10,14 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       libblas-dev \
       libboost-dev \
       libclang-dev \
+      libeigen3-dev \
       libfftw3-dev \
       libgfortran5 \
       libgmp-dev \
       libgsl-dev \
       libhdf5-dev \
       liblapack-dev \
+      libmpfr-dev \
       libopenmpi-dev \
       python3-dev \
       python3-mako \
@@ -43,7 +45,7 @@ ENV CC=gcc-12 CXX=g++-12 \
 COPY . $SRC/
 RUN set -ex ; \
   mkdir -p $REPO ; \
-  for pkg in triqs triqs_dft_tools triqs_cthyb omegamaxent_interface triqs_tprf triqs_maxent triqs_hubbardI triqs_hartree_fock solid_dmft ; do \
+  for pkg in triqs triqs_dft_tools triqs_cthyb omegamaxent_interface triqs_tprf triqs_maxent triqs_hubbardI triqs_hartree_fock solid_dmft triqs_Nevanlinna ; do \
     mkdir $BUILD/$pkg ; \
     cd $BUILD/$pkg ; \
     cmake $SRC/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL ; \
