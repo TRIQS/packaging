@@ -34,3 +34,7 @@
 	path = solid_dmft
 	url = https://github.com/triqs/solid_dmft
 	branch = 3.2.x
+[submodule "triqs_Nevanlinna"]
+	path = triqs_Nevanlinna
+	url = https://github.com/triqs/Nevanlinna
+	branch = 3.2.x
