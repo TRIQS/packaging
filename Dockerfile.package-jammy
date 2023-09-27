@@ -52,14 +52,14 @@ RUN set -ex ; \
     make -j2 package ; \
     dpkg -i $pkg-*.deb ; \
     mv $pkg-*.deb $REPO ; \
-  done \
-  # CTHYB with vertex measurements \
+  done; \
+  `# CTHYB with vertex measurements` \
   mkdir $BUILD/triqs_cthyb ; \
   cd $BUILD/triqs_cthyb ; \
   cmake $SRC/triqs_cthyb -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL -DMeasureG2=ON ; \
   make -j2 package ; \
   dpkg -i triqs_cthyb-*.deb ; \
-  mv triqs_cthyb-*.deb $REPO ; \
+  mv triqs_cthyb-*.deb $REPO ;
 
 WORKDIR $REPO
 COPY secret.gpg public.gpg ./
