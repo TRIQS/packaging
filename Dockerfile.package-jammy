@@ -40,6 +40,7 @@ ENV CC=gcc-12 CXX=g++-12 \
     INSTALL=/usr \
     CMAKE_PREFIX_PATH=/usr/lib/cmake/triqs \
     CPLUS_INCLUDE_PATH=/usr/include/mkl \
+    BLA_VENDOR=Intel10_64lp_seq \
     REPO=/build/repo
 
 COPY . $SRC/
