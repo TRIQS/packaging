@@ -9,7 +9,7 @@ def packagePlatforms = ["jammy"]
 for (int i = 0; i < packagePlatforms.size(); i++) {
   def platform = packagePlatforms[i]
   platforms["package-$platform"] = { -> node('docker') {
-    stage("package-$platform") { timeout(time: 2, unit: 'HOURS') {
+    stage("package-$platform") { timeout(time: 3, unit: 'HOURS') {
       checkout scm
       sh 'git submodule foreach git fetch --tags --force'
       withCredentials([file(credentialsId: 'gpg-sign-key', variable: 'SECRET')]) {
