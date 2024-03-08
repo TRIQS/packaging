@@ -1,0 +1,79 @@
+FROM ubuntu:noble
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      cmake \
+      g++ \
+      gfortran \
+      git \
+      hdf5-tools \
+      libgtest-dev \
+      libboost-dev \
+      libclang-dev \
+      libeigen3-dev \
+      libfftw3-dev \
+      libgfortran5 \
+      libgmp-dev \
+      libgsl-dev \
+      libhdf5-dev \
+      libmpfr-dev \
+      libopenblas-dev \
+      libopenmpi-dev \
+      python3-dev \
+      python3-mako \
+      python3-matplotlib \
+      python3-mpi4py \
+      python3-numpy \
+      python3-pytest \
+      python3-scipy \
+      python3-skimage \
+      python3-tomli \
+      \
+      apt-utils \
+      debhelper \
+      dpkg-dev \
+      \
+      libnfft3-dev
+
+ENV CC=gcc-12 CXX=g++-12 \
+    SRC=/src \
+    BUILD=/build \
+    INSTALL=/usr \
+    OPENBLAS_NUM_THREADS=1 \
+    CMAKE_PREFIX_PATH=/usr/lib/cmake/triqs \
+    REPO=/build/repo
+
+COPY . $SRC/
+RUN set -ex ; \
+  mkdir -p $REPO ; \
+  for pkg in triqs triqs_dft_tools omegamaxent_interface triqs_tprf triqs_maxent triqs_hubbardI triqs_hartree_fock triqs_Nevanlinna ; do \
+    mkdir $BUILD/$pkg ; \
+    cd $BUILD/$pkg ; \
+    cmake $SRC/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL ; \
+    make -j2 package ; \
+    dpkg -i $pkg-*.deb ; \
+    mv $pkg-*.deb $REPO ; \
+  done; \
+  `# CTHYB with vertex measurements` \
+  mkdir $BUILD/triqs_cthyb ; \
+  cd $BUILD/triqs_cthyb ; \
+  cmake $SRC/triqs_cthyb -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL -DMeasureG2=ON ; \
+  make -j2 package ; \
+  dpkg -i triqs_cthyb-*.deb ; \
+  mv triqs_cthyb-*.deb $REPO ; \
+  `# SolidDMFT` \
+  mkdir $BUILD/solid_dmft ; \
+  cd $BUILD/solid_dmft ; \
+  cmake $SRC/solid_dmft -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=$INSTALL ; \
+  make -j2 package ; \
+  dpkg -i solid_dmft-*.deb ; \
+  mv solid_dmft-*.deb $REPO ;
+
+WORKDIR $REPO
+COPY secret.gpg public.gpg ./
+RUN gpg --import -v -v secret.gpg public.gpg \
+  && rm secret.gpg \
+  && apt-ftparchive packages . > Packages \
+  && gzip -k Packages && bzip2 -k Packages \
+  && apt-ftparchive release . > release && mv release Release \
+  && gpg --digest-algo SHA512 --clearsign -o InRelease Release \
+  && gpg --digest-algo SHA512 -abs -o Release.gpg Release
