@@ -25,6 +25,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       python3-numpy \
       python3-pytest \
       python3-scipy \
+      python3-setuptools \
       python3-skimage \
       python3-tomli \
       \
