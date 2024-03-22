@@ -1,8 +1,8 @@
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       cmake \
-      g++-12 \
+      g++ \
       gfortran \
       git \
       hdf5-tools \
@@ -25,17 +25,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       python3-numpy \
       python3-pytest \
       python3-scipy \
+      python3-setuptools \
       python3-skimage \
       python3-tomli \
       \
       apt-utils \
       debhelper \
       dpkg-dev \
-      dpkg-sig \
       \
       libnfft3-dev
 
-ENV CC=gcc-12 CXX=g++-12 \
+ENV CC=gcc CXX=g++ \
     SRC=/src \
     BUILD=/build \
     INSTALL=/usr \
@@ -73,7 +73,6 @@ WORKDIR $REPO
 COPY secret.gpg public.gpg ./
 RUN gpg --import -v -v secret.gpg public.gpg \
   && rm secret.gpg \
-  && dpkg-sig -s builder *.deb \
   && apt-ftparchive packages . > Packages \
   && gzip -k Packages && bzip2 -k Packages \
   && apt-ftparchive release . > release && mv release Release \
