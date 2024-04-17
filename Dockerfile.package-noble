@@ -6,6 +6,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gfortran \
       git \
       hdf5-tools \
+      meson \
+      ninja-build \
       libgtest-dev \
       libboost-dev \
       libclang-dev \
@@ -16,6 +18,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       libgsl-dev \
       libhdf5-dev \
       libmpfr-dev \
+      libnfft3-dev \
       libopenblas-dev \
       libopenmpi-dev \
       python3-dev \
@@ -31,9 +34,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       \
       apt-utils \
       debhelper \
-      dpkg-dev \
-      \
-      libnfft3-dev
+      dpkg-dev
 
 ENV CC=gcc CXX=g++ \
     SRC=/src \
