@@ -19,7 +19,7 @@ for (int i = 0; i < packagePlatforms.size(); i++) {
       img.inside('-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group') {
 	sh """#!/bin/bash -ex
 	  top=\$PWD
-	  for t in triqs triqs_cthyb triqs_dft_tools triqs_tprf triqs_maxent triqs_hubbardI triqs_hartree_fock solid_dmft triqs_Nevanlinna ; do
+	  for t in triqs triqs_cthyb triqs_ctseg triqs_dft_tools triqs_tprf triqs_ctseg triqs_maxent triqs_hubbardI triqs_hartree_fock solid_dmft triqs_Nevanlinna ; do
 	    mkdir \$top/test/\$t/run
 	    cd \$top/test/\$t/run
 	    cmake ..
