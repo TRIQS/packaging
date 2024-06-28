@@ -38,3 +38,6 @@
 	path = triqs_Nevanlinna
 	url = https://github.com/triqs/Nevanlinna
 	branch = unstable
+[submodule "triqs_ctseg"]
+	path = triqs_ctseg
+	url = https://github.com/triqs/ctseg
