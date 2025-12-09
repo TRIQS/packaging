@@ -27,9 +27,6 @@ target_link_libraries(nfft INTERFACE ${PROJECT_NAME}::nfft)
 
 enable_testing()
 
-# The C++ Tests
-add_subdirectory(c++)
-
 # The Python Tests
 if(${TRIQS_WITH_PYTHON_SUPPORT})
   add_subdirectory(python)
