@@ -17,18 +17,11 @@ message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 find_package(TRIQS REQUIRED)
 find_package(${PROJECT_NAME} REQUIRED)
 
-# Build googletest
-add_subdirectory(/usr/src/gtest gtest EXCLUDE_FROM_ALL)
-
-# Lift the relevant triqs_cthyb targets out of the triqs_cthyb namespace
-add_library(${PROJECT_NAME}_warnings INTERFACE)
-add_library(nfft INTERFACE)
-target_link_libraries(nfft INTERFACE ${PROJECT_NAME}::nfft)
-
 enable_testing()
 
 # The Python Tests
+# (the DFT converters, incl. plovasp, now live in triqs_dftkit and are
+#  tested under test/triqs_dftkit; dft_tools no longer ships C++/nfft)
 if(${TRIQS_WITH_PYTHON_SUPPORT})
   add_subdirectory(python)
-  add_subdirectory(python/plovasp)
 endif()
