@@ -41,3 +41,11 @@
 [submodule "triqs_ctseg"]
 	path = triqs_ctseg
 	url = https://github.com/triqs/ctseg
+[submodule "triqs_dftkit"]
+	path = triqs_dftkit
+	url = https://github.com/TRIQS/dftkit
+	branch = unstable
+[submodule "triqs_modest"]
+	path = triqs_modest
+	url = https://github.com/TRIQS/modest
+	branch = unstable
