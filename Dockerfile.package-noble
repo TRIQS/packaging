@@ -2,7 +2,7 @@ FROM ubuntu:noble
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       cmake \
-      g++ \
+      g++-14 \
       gfortran \
       git \
       hdf5-tools \
@@ -38,7 +38,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       debhelper \
       dpkg-dev
 
-ENV CC=gcc CXX=g++ \
+ENV CC=gcc-14 CXX=g++-14 \
     SRC=/src \
     BUILD=/build \
     INSTALL=/usr \
