@@ -1,5 +1,5 @@
 # Start configuration
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.20)
 project(solid_dmft_tests CXX)
 
 # Default to Release build type
