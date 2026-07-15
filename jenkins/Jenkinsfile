@@ -9,7 +9,7 @@ def packages = [
   "triqs_cthyb",
   "triqs_ctseg",
   "triqs_dft_tools",
-  "omegamaxent_interface", // missing tests?
+  "omegamaxent_interface",
   "triqs_tprf",
   "triqs_maxent",
   "triqs_hubbardI",

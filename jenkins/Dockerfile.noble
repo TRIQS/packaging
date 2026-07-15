@@ -6,8 +6,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gfortran \
       git \
       hdf5-tools \
-      meson \
-      ninja-build \
       libgtest-dev \
       libboost-dev \
       libclang-dev \
