@@ -18,6 +18,7 @@ def packages = [
   "triqs_Nevanlinna",
   "triqs_modest"
 ]
+def allPackages = ["triqs"] + packages
 
 catchError {
   stage("base img") {
@@ -29,34 +30,17 @@ catchError {
     }, checkout: true)
   }
 
-  def buildPkg = { pkg ->
-    def srcDir = WORKSPACE
-    def pkgDir = "$srcDir/$pkg"
-    def buildDir = "$WORKSPACE_TMP/build/$pkg"
-    def installDir = "$WORKSPACE_TMP/install"
+  def buildPkg = { platform, pkg ->
     def args = ""
     if (pkg == "triqs_cthyb") {
       args += " -DMeasureG2=ON"
     }
-    dir(buildDir) {
-      // packaging requries prefix /usr, but we also want to install; rather than rebuilding install into /usr
+    dir("$WORKSPACE_TMP/build/$pkg") {
       sh """
-        cmake $pkgDir -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=/usr $args
+        cmake $WORKSPACE/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=/usr $args
         make -j\$PARALLEL package
-        mv $pkg-*.deb $srcDir
-        cmake $pkgDir -DBUILD_DEBIAN_PACKAGE=0 -DCMAKE_INSTALL_PREFIX=$installDir $args
-        make -j\$PARALLEL install
       """
-      dir('test') {
-        catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-          sh """
-            . $installDir/share/$pkg/${pkg}vars.sh
-            cmake $srcDir/test/$pkg
-            make -j\$PARALLEL
-            OPENBLAS_NUM_THREADS=1 make test CTEST_OUTPUT_ON_FAILURE=1
-          """
-        }
-      }
+      stash name: "$platform-$pkg", includes: "$pkg-*.deb"
     }
   }
 
@@ -65,43 +49,45 @@ catchError {
       timeout(time: 2, unit: 'HOURS') {
         runPod(tag: platform) {
           stage("triqs-$platform") {
-            def deb = buildPkg("triqs")
-            stash name: "$platform-triqs", includes: "triqs-*.deb"
+            buildPkg(platform, "triqs")
           }
         }
       }
     } ] }
   }
-  stage("triqs img") {
+
+  def installPkgs = { tag, pkgs ->
     buildImages(platforms.collect { platform ->
-      [ tag: "$platform-triqs",
+      [ tag: "$platform-$tag",
         prep: {
-          unstash name: "$platform-triqs"
           def img = imageName(platform)
+          pkgs.each { pkg ->
+            unstash name: "$platform-$pkg"
+          }
           writeFile(file: "Dockerfile", text:
 """
 FROM $img
-COPY triqs-*.deb /tmp
-RUN dpkg -i /tmp/triqs-*.deb
+COPY *.deb /tmp
+RUN dpkg -i /tmp/*.deb
 """)
         }
       ]
     }, checkout: false)
   }
 
+  stage("triqs img") {
+    installPkgs("triqs", ["triqs"])
+  }
+
   parallel platforms.collectEntries { platform -> [(platform): {
     timeout(time: 3, unit: 'HOURS') {
       runPod(tag: "$platform-triqs") {
         stage("$platform pkgs") {
-          def repo = "$WORKSPACE_TMP/repo"
-          dir (repo) {
-            unstash name: "$platform-triqs"
-          }
-          packages.each { pkg ->
-            buildPkg(pkg)
-            sh "mv $pkg-*.deb $repo"
-          }
-          dir(repo) {
+          packages.each { buildPkg(platform, it) }
+          dir("$WORKSPACE_TMP/repo") {
+            allPackages.each { pkg ->
+              unstash name: "$platform-$pkg"
+            }
             withCredentials([file(credentialsId: 'triqs-packaging-key', variable: 'SECRET')]) {
               sh 'cp $SECRET secret.gpg'
             }
@@ -121,6 +107,30 @@ RUN dpkg -i /tmp/triqs-*.deb
         }
       }
     }
-  } ] }
+  }] }
+
+  stage("pkgs img") {
+    installPkgs("pkgs", allPackages)
+  }
+
+  parallel platforms.collectEntries { platform -> [(platform): {
+    timeout(time: 3, unit: 'HOURS') {
+      runPod(tag: "$platform-pkgs") {
+        stage("$platform tests") {
+          allPackages.each { pkg ->
+            catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+              dir("$WORKSPACE_TMP/test/$pkg") {
+                sh """
+                  cmake $WORKSPACE/test/$pkg
+                  make -j\$PARALLEL
+                  OPENBLAS_NUM_THREADS=1 make test CTEST_OUTPUT_ON_FAILURE=1
+                """
+              }
+            }
+          }
+        }
+      }
+    }
+  }] }
 }
 emailFailure()
