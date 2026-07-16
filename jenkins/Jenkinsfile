@@ -1,0 +1,136 @@
+properties([
+  disableConcurrentBuilds(),
+  buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '30'))
+])
+
+def platforms = ["noble", "resolute"]
+def packages = [
+  "triqs_dftkit",
+  "triqs_cthyb",
+  "triqs_ctseg",
+  "triqs_dft_tools",
+  "omegamaxent_interface",
+  "triqs_tprf",
+  "triqs_maxent",
+  "triqs_hubbardI",
+  "triqs_hartree_fock",
+  "solid_dmft",
+  "triqs_Nevanlinna",
+  "triqs_modest"
+]
+def allPackages = ["triqs"] + packages
+
+catchError {
+  stage("base img") {
+    buildImages(platforms.collect { platform ->
+      [ tag: platform,
+        context: 'jenkins',
+        dockerfile: "Dockerfile.$platform"
+      ]
+    }, checkout: true)
+  }
+
+  def buildPkg = { platform, pkg ->
+    def args = ""
+    if (pkg == "triqs_cthyb") {
+      args += " -DMeasureG2=ON"
+    }
+    dir("$WORKSPACE_TMP/build/$pkg") {
+      sh """
+        cmake $WORKSPACE/$pkg -DBUILD_DEBIAN_PACKAGE=1 -DCMAKE_INSTALL_PREFIX=/usr $args
+        make -j\$PARALLEL package
+      """
+      stash name: "$platform-$pkg", includes: "$pkg-*.deb"
+    }
+  }
+
+  stage("triqs pkg") {
+    parallel platforms.collectEntries { platform -> [(platform): {
+      timeout(time: 2, unit: 'HOURS') {
+        runPod(tag: platform) {
+          stage("triqs-$platform") {
+            buildPkg(platform, "triqs")
+          }
+        }
+      }
+    } ] }
+  }
+
+  def installPkgs = { tag, pkgs ->
+    buildImages(platforms.collect { platform ->
+      [ tag: "$platform-$tag",
+        prep: {
+          def img = imageName(platform)
+          pkgs.each { pkg ->
+            unstash name: "$platform-$pkg"
+          }
+          writeFile(file: "Dockerfile", text:
+"""
+FROM $img
+COPY *.deb /tmp
+RUN dpkg -i /tmp/*.deb
+""")
+        }
+      ]
+    }, checkout: false)
+  }
+
+  stage("triqs img") {
+    installPkgs("triqs", ["triqs"])
+  }
+
+  parallel platforms.collectEntries { platform -> [(platform): {
+    timeout(time: 3, unit: 'HOURS') {
+      runPod(tag: "$platform-triqs") {
+        stage("$platform pkgs") {
+          packages.each { buildPkg(platform, it) }
+          dir("$WORKSPACE_TMP/repo") {
+            allPackages.each { pkg ->
+              unstash name: "$platform-$pkg"
+            }
+            withCredentials([file(credentialsId: 'triqs-packaging-key', variable: 'SECRET')]) {
+              sh 'cp $SECRET secret.gpg'
+            }
+            sh """
+              cp $WORKSPACE/public.gpg .
+              gpg --import -v -v secret.gpg public.gpg
+              rm secret.gpg
+              apt-ftparchive packages . > Packages
+              gzip -k Packages && bzip2 -k Packages
+              apt-ftparchive release . > release && mv release Release
+              gpg --digest-algo SHA512 --clearsign -o InRelease Release
+              gpg --digest-algo SHA512 -abs -o Release.gpg Release
+              tar czf $WORKSPACE/${platform}.tgz .
+            """
+          }
+          archiveArtifacts(artifacts: "${platform}.tgz")
+        }
+      }
+    }
+  }] }
+
+  stage("pkgs img") {
+    installPkgs("pkgs", allPackages)
+  }
+
+  parallel platforms.collectEntries { platform -> [(platform): {
+    timeout(time: 3, unit: 'HOURS') {
+      runPod(tag: "$platform-pkgs") {
+        stage("$platform tests") {
+          allPackages.each { pkg ->
+            catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+              dir("$WORKSPACE_TMP/test/$pkg") {
+                sh """
+                  cmake $WORKSPACE/test/$pkg
+                  make -j\$PARALLEL
+                  OPENBLAS_NUM_THREADS=1 make test CTEST_OUTPUT_ON_FAILURE=1
+                """
+              }
+            }
+          }
+        }
+      }
+    }
+  }] }
+}
+emailFailure()
