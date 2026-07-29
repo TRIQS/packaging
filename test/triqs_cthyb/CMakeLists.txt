@@ -22,6 +22,9 @@ add_library(${PROJECT_NAME}_warnings INTERFACE)
 
 enable_testing()
 
+# The deb is built with -DMeasureG2=ON and cthyb gates its G2 test on it
+set(MeasureG2 ON)
+
 # The C++ Tests
 add_subdirectory(c++)
 
