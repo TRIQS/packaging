@@ -1,9 +1,6 @@
 # Start configuration
-cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
-cmake_policy(VERSION 3.20)
-if(POLICY CMP0074)
-  cmake_policy(SET CMP0074 NEW)
-endif()
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+cmake_policy(VERSION ${CMAKE_VERSION})
 
 project(triqs_dft_tools CXX)
 
@@ -20,8 +17,8 @@ find_package(${PROJECT_NAME} REQUIRED)
 enable_testing()
 
 # The Python Tests
-# (the DFT converters, incl. plovasp, now live in triqs_dftkit and are
-#  tested under test/triqs_dftkit; dft_tools no longer ships C++/nfft)
-if(${TRIQS_WITH_PYTHON_SUPPORT})
+# (the DFT converters, incl. plovasp, live in triqs_dftkit and are tested
+#  under test/triqs_dftkit, so dft_tools has no c++ tests here)
+if(TRIQS_WITH_PYTHON_SUPPORT)
   add_subdirectory(python)
 endif()

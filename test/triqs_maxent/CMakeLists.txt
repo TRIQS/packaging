@@ -1,6 +1,8 @@
 # Start configuration
-cmake_minimum_required(VERSION 3.20)
-project(triqs_maxent_tests CXX)
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+cmake_policy(VERSION ${CMAKE_VERSION})
+
+project(triqs_maxent CXX)
 
 # Default to Release build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -8,12 +10,13 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message( STATUS "-------- BUILD-TYPE: ${CMAKE_BUILD_TYPE} --------")
 
-#Load Dependencies
-find_package(TRIQS)
+# Load Dependencies
+find_package(TRIQS REQUIRED)
+find_package(${PROJECT_NAME} REQUIRED)
 
 enable_testing()
 
-# The Python Maxent Tests
-if(${TRIQS_WITH_PYTHON_SUPPORT})
+# The Python Tests
+if(TRIQS_WITH_PYTHON_SUPPORT)
   add_subdirectory(python)
 endif()

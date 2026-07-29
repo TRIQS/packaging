@@ -1,9 +1,6 @@
 # Start configuration
-cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
-cmake_policy(VERSION 3.20)
-if(POLICY CMP0074)
-  cmake_policy(SET CMP0074 NEW)
-endif()
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+cmake_policy(VERSION ${CMAKE_VERSION})
 
 project(triqs_Nevanlinna CXX)
 
@@ -20,7 +17,7 @@ find_package(${PROJECT_NAME} REQUIRED)
 # Build googletest
 add_subdirectory(/usr/src/gtest gtest EXCLUDE_FROM_ALL)
 
-# Lift the relevant triqs_cthyb targets out of the triqs_cthyb namespace
+# Provide the warnings interface target the test CMakeLists link against
 add_library(${PROJECT_NAME}_warnings INTERFACE)
 
 enable_testing()
@@ -29,6 +26,6 @@ enable_testing()
 add_subdirectory(c++)
 
 # The Python Tests
-if(${TRIQS_WITH_PYTHON_SUPPORT})
+if(TRIQS_WITH_PYTHON_SUPPORT)
   add_subdirectory(python)
 endif()
