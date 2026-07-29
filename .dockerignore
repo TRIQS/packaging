@@ -1,8 +1,0 @@
-.gitmodules
-README.md
-Dockerfile*
-Jenkinsfile
-test
-*/Jenkinsfile
-*/Dockerfile*
-*/.travis.yml
