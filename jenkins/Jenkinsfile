@@ -5,6 +5,7 @@ properties([
 
 def platforms = ["noble", "resolute"]
 def packages = [
+  "triqs_hartree_fock",
   "triqs_dftkit",
   "triqs_cthyb",
   "triqs_ctint",
@@ -14,7 +15,6 @@ def packages = [
   "triqs_tprf",
   "triqs_maxent",
   "triqs_hubbardI",
-  "triqs_hartree_fock",
   "solid_dmft",
   "triqs_Nevanlinna",
   "triqs_modest"
@@ -35,6 +35,12 @@ catchError {
     def args = ""
     if (pkg == "triqs_cthyb") {
       args += " -DMeasureG2=ON"
+    }
+    // Resolve triqs_hartree_fock from the build tree above, else ctint vendors it and the
+    // two debs collide on install. Its config already points at /usr, where the deb lands.
+    if (pkg == "triqs_ctint") {
+      args += " -DBuild_Deps=IfNotFound" +
+              " -Dtriqs_hartree_fock_DIR=$WORKSPACE_TMP/build/triqs_hartree_fock/share/cmake"
     }
     dir("$WORKSPACE_TMP/build/$pkg") {
       sh """
