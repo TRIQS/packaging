@@ -7,6 +7,7 @@ def platforms = ["noble", "resolute"]
 def packages = [
   "triqs_dftkit",
   "triqs_cthyb",
+  "triqs_ctint",
   "triqs_ctseg",
   "triqs_dft_tools",
   "omegamaxent_interface",

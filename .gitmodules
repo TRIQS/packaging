@@ -49,3 +49,7 @@
 	path = triqs_modest
 	url = https://github.com/TRIQS/modest
 	branch = unstable
+[submodule "triqs_ctint"]
+	path = triqs_ctint
+	url = https://github.com/TRIQS/ctint
+	branch = unstable
