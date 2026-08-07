@@ -1,5 +1,9 @@
 properties([
   disableConcurrentBuilds(),
+  // Every app build pushes an Autoupdate commit here; without a limit each one starts a
+  // multi-hour build of all packages. Throttled triggers stay queued, so nothing is lost,
+  // and a manual build still runs immediately.
+  rateLimitBuilds(throttle: [count: 1, durationName: 'day', userBoost: true]),
   buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '30'))
 ])
 
